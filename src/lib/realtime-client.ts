@@ -25,6 +25,7 @@ export interface SessionMeta {
   sessionId: string;
   promptVersion: number;
   startedAt: number;
+  jobDescription?: string;
 }
 
 const SDP_URL = "https://api.openai.com/v1/realtime/calls";
@@ -44,17 +45,26 @@ export class RealtimeClient {
     this.cb = callbacks;
   }
 
-  async connect(): Promise<void> {
+  async connect(opts?: { jobDescription?: string }): Promise<void> {
     this.cb.onStatus?.("connecting");
     try {
       // 1. Mint ephemeral token + session config from our backend.
-      const res = await fetch("/api/session", { method: "POST" });
+      const res = await fetch("/api/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobDescription: opts?.jobDescription }),
+      });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.error ?? `Session mint failed (${res.status})`);
       }
       const { token, model, sessionId, promptVersion } = await res.json();
-      this.meta = { sessionId, promptVersion, startedAt: Date.now() };
+      this.meta = {
+        sessionId,
+        promptVersion,
+        startedAt: Date.now(),
+        jobDescription: opts?.jobDescription,
+      };
 
       // 2. Peer connection + remote audio sink.
       const pc = new RTCPeerConnection();

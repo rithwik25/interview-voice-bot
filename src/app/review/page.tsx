@@ -27,8 +27,9 @@ export default function ReviewPage() {
   }, []);
 
   useEffect(() => {
-    loadSessions();
-    loadVersions();
+    // One-time initial data load on mount (state is set after the async fetches).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void Promise.all([loadSessions(), loadVersions()]);
   }, [loadSessions, loadVersions]);
 
   const select = (s: SessionRecord) => {

@@ -4,6 +4,7 @@
 
 import profile from "@/data/profile.json";
 import stars from "@/data/star-stories.json";
+import personalQa from "@/data/personal-qa.json";
 import { deepDives } from "@/data/deep-dives";
 import type { PromptVersion } from "./types";
 
@@ -70,8 +71,37 @@ function renderDeepDives(): string {
     .join("\n\n----------------------------------------\n\n");
 }
 
-/** Compose the complete instructions string for a given base prompt version. */
-export function buildInstructions(base: PromptVersion): string {
+function renderPersonalQa(): string {
+  return personalQa.answers
+    .map(
+      (a) =>
+        `Q: ${a.question}\nPreferred answer: ${a.answer}` +
+        (a.notes ? `\n(Guidance: ${a.notes})` : "")
+    )
+    .join("\n\n");
+}
+
+function renderJobDescription(jd?: string): string {
+  if (!jd || !jd.trim()) return "";
+  return [
+    "",
+    "================ TARGET ROLE — JOB & COMPANY DESCRIPTION ================",
+    "This is the role and company I'm interviewing for. Treat it as important context for EVERY answer, not only 'why this role':",
+    "- Lead with the experience, projects, and skills most relevant to THIS role. When choosing which STAR story, project, or deep dive to highlight, pick the one that best matches this description.",
+    "- Mirror the role's language, tech stack, and priorities, and explicitly connect my background to what they care about.",
+    "- For 'why this role/company', fit, and motivation questions, ground the answer specifically in this description — the company's domain/product and what the role focuses on.",
+    "- Weave alignment in naturally; don't force it or sound like I'm reciting the JD.",
+    "- Still never claim skills or experience I don't actually have — bridge from my closest real experience instead.",
+    "",
+    jd.trim(),
+  ].join("\n");
+}
+
+/**
+ * Compose the complete instructions string for a given base prompt version.
+ * Optionally tailor to a specific job description.
+ */
+export function buildInstructions(base: PromptVersion, jobDescription?: string): string {
   return [
     base.instructions,
     "",
@@ -81,10 +111,16 @@ export function buildInstructions(base: PromptVersion): string {
     "================ STAR STORIES (use for behavioral questions) ========",
     renderStories(),
     "",
+    "================ PERSONAL / HR ANSWERS (use for fit & behavioral questions) ========",
+    "These are my preferred answers to common HR/personal questions. Deliver them naturally and conversationally in first person — do NOT read them verbatim or sound scripted. Adapt to how the question is actually asked.",
+    "",
+    renderPersonalQa(),
+    "",
     "================ TECHNICAL DEEP DIVES (use for deep technical questions) ========",
     "These are detailed notes on each role/project for answering deep technical follow-ups.",
     "Items tagged [VERIFY] are NOT yet confirmed specifics — see the TECHNICAL DEPTH rules above for how to handle them (answer at a principled level, do NOT state them as hard fact, and flag).",
     "",
     renderDeepDives(),
+    renderJobDescription(jobDescription),
   ].join("\n");
 }

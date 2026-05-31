@@ -72,7 +72,12 @@ export async function POST(req: Request) {
     .map((e) => `- ${JSON.stringify(e.args)}`)
     .join("\n");
 
+  const jdBlock = session.jobDescription
+    ? `\nThe interview was for this TARGET ROLE / JOB DESCRIPTION:\n"""\n${session.jobDescription}\n"""\nWhere relevant, judge how well the agent tailored answers to this role and tied the candidate's experience to it.\n`
+    : "";
+
   const prompt = `You are an expert interview coach AND prompt engineer. You are improving a VOICE AGENT that answers job interviews on behalf of a candidate.
+${jdBlock}
 
 The agent's CURRENT base instructions (the editable part you can rewrite) were:
 """

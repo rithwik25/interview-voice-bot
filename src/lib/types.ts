@@ -20,6 +20,8 @@ export interface SessionRecord {
   promptVersion: number;
   startedAt: number;
   endedAt: number | null;
+  /** the job description this interview was tailored to, if provided */
+  jobDescription?: string;
   transcript: TranscriptTurn[];
   toolEvents: ToolEvent[];
   /** candidate's own 1-5 rating of how the agent did, set post-call */

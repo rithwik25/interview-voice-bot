@@ -40,12 +40,25 @@ Open http://localhost:3000 →
 - **/interview** — the call UI. Click *Start interview*, allow the mic, talk.
 - **/review** — analyze past sessions, apply prompt improvements, manage versions.
 
+## Deployment
+
+Live at **https://elyx-sigma.vercel.app** (Vercel project `rithwik-7088s-projects/elyx`).
+
+- **Persistence**: Neon Postgres (Vercel Marketplace integration). `src/lib/store.ts`
+  dispatches to Postgres when `DATABASE_URL` is set, else to the local `.data/` file
+  store — so local dev needs zero DB setup. Schema is auto-created on first request
+  (`src/lib/db.ts` → `ensureSchema`).
+- **Env vars on Vercel**: `OPENAI_API_KEY` (production + dev), `DATABASE_URL`
+  (production + preview).
+- **Redeploy**: `vercel deploy --prod`.
+
 ## Key files
 
 | Path | Purpose |
 |---|---|
 | `src/data/profile.json` | Reconciled candidate facts (source of truth) |
 | `src/data/star-stories.json` | Behavioral-question source material |
+| `src/data/personal-qa.json` | **HR / personal / fit answers** (why switch, hobbies, strengths, comp, etc.) — edit freely |
 | `src/data/deep-dives.ts` | **Technical deep-dive KB** for deep questions about each role/project — fill the `[VERIFY]` specifics |
 | `src/data/prompt-versions.json` | Seed base instructions (v1) |
 | `src/lib/prompt.ts` | Composes instructions + profile + stories |

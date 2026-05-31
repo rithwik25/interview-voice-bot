@@ -25,9 +25,20 @@ export default function InterviewPage() {
   const [tools, setTools] = useState<ToolEvent[]>([]);
   const [micOn, setMicOn] = useState(true);
   const [saved, setSaved] = useState(false);
+  const [jobDescription, setJobDescription] = useState("");
   const turnsRef = useRef<TranscriptTurn[]>([]);
   const toolsRef = useRef<ToolEvent[]>([]);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  // Remember the last-used job description locally so it persists between visits.
+  useEffect(() => {
+    const saved = localStorage.getItem("elyx_jd");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydrate from localStorage on mount
+    if (saved) setJobDescription(saved);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("elyx_jd", jobDescription);
+  }, [jobDescription]);
 
   useEffect(() => {
     turnsRef.current = turns;
@@ -51,6 +62,7 @@ export default function InterviewPage() {
         promptVersion: client.meta.promptVersion,
         startedAt: client.meta.startedAt,
         endedAt: ended ? Date.now() : null,
+        jobDescription: client.meta.jobDescription,
         transcript: turnsRef.current,
         toolEvents: toolsRef.current,
       }),
@@ -81,8 +93,8 @@ export default function InterviewPage() {
       onError: (m) => setError(m),
     });
     clientRef.current = client;
-    await client.connect();
-  }, []);
+    await client.connect({ jobDescription: jobDescription.trim() || undefined });
+  }, [jobDescription]);
 
   const end = useCallback(async () => {
     await persist(true);
@@ -131,6 +143,26 @@ export default function InterviewPage() {
         <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           {error}
         </div>
+      )}
+
+      {status === "idle" && (
+        <details className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800" open={!jobDescription}>
+          <summary className="cursor-pointer text-sm font-medium">
+            Job &amp; company description for this role{" "}
+            <span className="text-neutral-400">
+              (optional — the agent aligns every answer to it)
+            </span>
+          </summary>
+          <textarea
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            placeholder="Paste the job description AND a bit about the company here. The agent will lead with your most relevant experience, mirror the role's priorities, and ground 'why this role/company' answers in it."
+            className="mt-3 h-40 w-full rounded-md border border-neutral-300 p-3 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+          />
+          <p className="mt-1 text-xs text-neutral-400">
+            Remembered on this device. Set it before starting the interview.
+          </p>
+        </details>
       )}
 
       <div

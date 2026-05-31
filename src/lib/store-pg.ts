@@ -43,9 +43,10 @@ export async function savePromptVersions(versions: PromptVersion[]): Promise<voi
 export async function saveSession(session: SessionRecord): Promise<void> {
   await ensureSchema();
   await db()`
-    INSERT INTO sessions (id, prompt_version, started_at, ended_at, transcript, tool_events, rating, notes, analysis)
+    INSERT INTO sessions (id, prompt_version, started_at, ended_at, job_description, transcript, tool_events, rating, notes, analysis)
     VALUES (
       ${session.id}, ${session.promptVersion}, ${session.startedAt}, ${session.endedAt},
+      ${session.jobDescription ?? null},
       ${JSON.stringify(session.transcript)}, ${JSON.stringify(session.toolEvents)},
       ${session.rating ?? null}, ${session.notes ?? null},
       ${session.analysis ? JSON.stringify(session.analysis) : null}
@@ -54,6 +55,7 @@ export async function saveSession(session: SessionRecord): Promise<void> {
       prompt_version = EXCLUDED.prompt_version,
       started_at = EXCLUDED.started_at,
       ended_at = EXCLUDED.ended_at,
+      job_description = EXCLUDED.job_description,
       transcript = EXCLUDED.transcript,
       tool_events = EXCLUDED.tool_events,
       rating = EXCLUDED.rating,
@@ -92,6 +94,7 @@ function rowToSession(r: Record<string, unknown>): SessionRecord {
     promptVersion: Number(r.prompt_version),
     startedAt: Number(r.started_at),
     endedAt: r.ended_at == null ? null : Number(r.ended_at),
+    jobDescription: (r.job_description as string) ?? undefined,
     transcript: (r.transcript as SessionRecord["transcript"]) ?? [],
     toolEvents: (r.tool_events as SessionRecord["toolEvents"]) ?? [],
     rating: r.rating == null ? undefined : Number(r.rating),

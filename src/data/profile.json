@@ -19,7 +19,7 @@
   "work_authorization": "Indian Citizen",
   "requires_sponsorship": false,
   "current_ctc_lpa": 30,
-  "expected_ctc_lpa": 30,
+  "expected_ctc_lpa": 35,
   "education": {
     "degree": "B.Tech Computer Science",
     "institute": "IIT Roorkee",
@@ -140,7 +140,7 @@
     "Software Engineering", "AI/ML", "Backend", "Full-Stack", "Frontend"
   ],
   "logistics": {
-    "notice_period": "As per current employment terms; available to discuss specifics",
+    "notice_period": "30 days (on paper); flexible on exact start date",
     "relocation": "Open to relocation and remote roles",
     "work_authorization_note": "Indian citizen; does not require sponsorship to work in India"
   }

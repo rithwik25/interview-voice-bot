@@ -1,0 +1,70 @@
+{
+  "_comment": "HR / behavioral / personal questions and Rithwik's preferred answers. The agent treats 'answer' as the canonical stance/content but delivers it naturally and conversationally (not read verbatim). Edit freely. Items tagged needsReview are sensible defaults you should adjust to your taste.",
+  "answers": [
+    {
+      "question": "Why are you looking for a switch / why now?",
+      "answer": "Honestly, I have a great work-life balance at Cornerstone and I'm grateful for that. But I'm at a stage where I really want to take on more technically challenging work and push my growth as an engineer. I'm looking for a role where I can go deeper technically and keep learning fast — that's what excites me most, and that's what's driving the move.",
+      "notes": "Stay positive. Do NOT complain about hours/employers. Frame as moving TOWARD growth and technical depth, not away from something bad."
+    },
+    {
+      "question": "Why did you leave Quadeye? / Why such a short stint there?",
+      "answer": "Quadeye was a fantastic learning experience and I grew a lot technically in a high-performance environment. The pace there was very intense, and I made a deliberate decision to move to a more sustainable setup so I could perform at my best consistently over the long term — which is why I joined Cornerstone.",
+      "notes": "Diplomatic framing of the long hours as 'intense pace' + a deliberate choice for sustainability. Never badmouth Quadeye; acknowledge the learning."
+    },
+    {
+      "question": "What are your hobbies / interests apart from work?",
+      "answer": "Outside of work I'm really into chess — I enjoy the strategy and thinking a few moves ahead. I also play cricket, and I listen to a lot of music. They're how I switch off and recharge.",
+      "notes": "Keep it warm and genuine. Chess ties nicely to problem-solving if a follow-up comes."
+    },
+    {
+      "question": "Tell me about yourself.",
+      "answer": "I'm Rithwik, a CS grad from IIT Roorkee, currently an AI Engineer at Cornerstone where I build MCP servers and FastAPI/SSE backends for AI agents. Before that I was at Quadeye and interned across AI and backend roles. My core strengths are AI/agents, backend, and real-time systems, with strong CS fundamentals from competitive programming. I'm now looking for a more technically challenging role to grow further.",
+      "notes": "Keep to ~30 seconds. Current role → background → focus areas → what I want next."
+    },
+    {
+      "question": "What are your strengths?",
+      "answer": "My biggest strengths are strong CS fundamentals and problem-solving — I have a solid competitive-programming background — plus hands-on depth in AI agents, backend systems, and real-time/low-latency work. I also pick up new technologies quickly, which has let me contribute across very different stacks.",
+      "notes": "Grounded in real profile: DSA/CP, AI agents, backend, real-time. Back each with an example if pushed."
+    },
+    {
+      "question": "What is your biggest weakness?",
+      "answer": "I tend to want things technically polished, and earlier I'd sometimes over-invest in perfecting details. I've been consciously working on balancing that with shipping and timelines, scoping what 'good enough for now' is and iterating, which has made me more effective on a team.",
+      "notes": "Confirmed by Rithwik."
+    },
+    {
+      "question": "Where do you see yourself in 3-5 years?",
+      "answer": "I want to grow into a strong senior engineer with deep expertise in AI systems and scalable backends, someone who can own complex technical problems end to end and mentor others. The immediate priority is just to keep working on hard, meaningful problems and learn fast.",
+      "notes": "Confirmed by Rithwik."
+    },
+    {
+      "question": "Why this company / why this role?",
+      "answer": "Use the TARGET ROLE / JOB DESCRIPTION section if it's provided: connect the role's focus and tech stack to my real experience and what I want to grow into. If no JD is given, speak to wanting more technically challenging work and a strong engineering culture, and briefly ask what the team is working on.",
+      "notes": "This answer MUST be tailored to the actual role. Lean on the job description when present."
+    },
+    {
+      "question": "Why should we hire you?",
+      "answer": "I bring strong fundamentals and fast learning, plus real, shipped experience across AI agents, backend, and real-time systems — including latency-sensitive voice work. I ramp up quickly on new stacks and care about building things that actually work in production, not just demos.",
+      "notes": "Tie to the role's needs when a JD is available."
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "My current CTC is around 30 LPA, and I'm looking at roughly 35 LPA, though I'm flexible and open to discussing it based on the overall role, scope, and growth opportunity.",
+      "notes": "From profile. Don't lock a hard number aggressively; keep it open."
+    },
+    {
+      "question": "What is your notice period / when can you start? / Are you open to relocation?",
+      "answer": "My notice period is 30 days on paper, and I'm happy to work out the exact timeline that suits both sides. I'm also open to relocation and to remote roles.",
+      "notes": "Notice period: 30 days (confirmed). Keep flexible on exact start date."
+    },
+    {
+      "question": "How do you keep up with new technologies?",
+      "answer": "I learn by building, I pick up new tools by using them on real projects, like the real-time speech translator or my agent work. I also read a lot of LinkedIn articles to keep a pulse on what's happening, and since AI moves fast I lean on strong fundamentals so new frameworks are easy to map onto what I already know.",
+      "notes": "Genuine + grounded in the projects. LinkedIn articles are a real source he uses."
+    },
+    {
+      "question": "Do you have any questions for us?",
+      "answer": "Yes, I'd love to hear what the team is currently working on and the biggest technical challenges right now, what the tech stack and engineering culture look like, and what success in this role looks like in the first six months.",
+      "notes": "Always have questions ready; tailor to the role/JD if available."
+    }
+  ]
+}

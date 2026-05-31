@@ -9,7 +9,7 @@ import { buildSessionConfig, REALTIME_MODEL } from "@/lib/realtime-config";
 
 export const runtime = "nodejs";
 
-export async function POST() {
+export async function POST(req: Request) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -18,8 +18,12 @@ export async function POST() {
     );
   }
 
+  const body = await req.json().catch(() => ({}));
+  const jobDescription: string | undefined =
+    typeof body?.jobDescription === "string" ? body.jobDescription : undefined;
+
   const promptVersion = await getActivePromptVersion();
-  const instructions = buildInstructions(promptVersion);
+  const instructions = buildInstructions(promptVersion, jobDescription);
   const session = buildSessionConfig(instructions);
 
   const res = await fetch("https://api.openai.com/v1/realtime/client_secrets", {

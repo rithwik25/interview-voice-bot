@@ -36,6 +36,8 @@ export function ensureSchema(): Promise<void> {
           notes          TEXT,
           analysis       JSONB
         )`;
+      // Added after initial release — idempotent so existing tables get it too.
+      await sql`ALTER TABLE sessions ADD COLUMN IF NOT EXISTS job_description TEXT`;
     })();
   }
   return schemaReady;

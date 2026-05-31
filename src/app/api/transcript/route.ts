@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     promptVersion: body.promptVersion ?? existing?.promptVersion ?? 1,
     startedAt: body.startedAt ?? existing?.startedAt ?? Date.now(),
     endedAt: body.endedAt ?? Date.now(),
+    jobDescription: body.jobDescription ?? existing?.jobDescription,
     transcript: body.transcript ?? existing?.transcript ?? [],
     toolEvents: body.toolEvents ?? existing?.toolEvents ?? [],
     rating: body.rating ?? existing?.rating,
