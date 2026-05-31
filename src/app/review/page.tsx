@@ -387,22 +387,29 @@ export default function ReviewPage() {
                   </div>
 
                   {/* Prompt patch */}
-                  <div className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
-                    <h3 className="font-semibold">Proposed prompt patch</h3>
-                    <p className="mt-1 text-sm text-neutral-500">{a.promptPatch.rationale}</p>
-                    <textarea
-                      value={editedInstructions}
-                      onChange={(e) => setEditedInstructions(e.target.value)}
-                      className="mt-3 h-64 w-full rounded-md border border-neutral-300 p-3 font-mono text-xs dark:border-neutral-700 dark:bg-neutral-950"
-                    />
-                    <button
-                      onClick={applyPatch}
-                      disabled={busy}
-                      className="mt-3 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
-                    >
-                      {busy ? "Applying…" : "Apply as new active version"}
-                    </button>
-                  </div>
+                  {a.promptPatch.changesRecommended === false ? (
+                    <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                      <span className="font-semibold">✓ No prompt changes recommended.</span>{" "}
+                      {a.promptPatch.rationale}
+                    </div>
+                  ) : (
+                    <div className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
+                      <h3 className="font-semibold">Proposed prompt patch</h3>
+                      <p className="mt-1 text-sm text-neutral-500">{a.promptPatch.rationale}</p>
+                      <textarea
+                        value={editedInstructions}
+                        onChange={(e) => setEditedInstructions(e.target.value)}
+                        className="mt-3 h-64 w-full rounded-md border border-neutral-300 p-3 font-mono text-xs dark:border-neutral-700 dark:bg-neutral-950"
+                      />
+                      <button
+                        onClick={applyPatch}
+                        disabled={busy}
+                        className="mt-3 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                      >
+                        {busy ? "Applying…" : "Apply as new active version"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </>

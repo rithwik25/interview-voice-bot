@@ -68,6 +68,8 @@ export interface AnalysisResult {
   strengths: string[];
   weaknesses: Array<{ issue: string; example: string; severity: "low" | "medium" | "high" }>;
   promptPatch: {
+    /** false when the agent performed well and no prompt change is warranted */
+    changesRecommended: boolean;
     rationale: string;
     /** full proposed new base instructions (the editable part of the prompt) */
     newInstructions: string;

@@ -56,13 +56,20 @@ const schema = z.object({
     })
   ),
   promptPatch: z.object({
+    changesRecommended: z
+      .boolean()
+      .describe(
+        "false if the agent performed well and NO prompt change is warranted (all checks pass, no ungrounded claims, no unanswered questions, and no human feedback). true otherwise."
+      ),
     rationale: z
       .string()
-      .describe("briefly summarize the minimal change(s) you made and why"),
+      .describe(
+        "if changesRecommended is false, say the prompt is performing well and needs no change; otherwise briefly summarize the minimal change(s) you made and why"
+      ),
     newInstructions: z
       .string()
       .describe(
-        "The base instructions with MINIMAL edits. Preserve the existing wording and structure verbatim; change only what is strictly necessary to address the issues/feedback — ideally just adding or tweaking a line or two. Do NOT rewrite, reorder, or restructure the prompt. Return the full instruction text with those minimal edits applied (exclude the profile/STAR/deep-dive data)."
+        "If changesRecommended is false, return the CURRENT base instructions unchanged. Otherwise, the base instructions with MINIMAL edits: preserve the existing wording and structure verbatim and change only what is strictly necessary — ideally just adding or tweaking a line or two. Do NOT rewrite, reorder, or restructure. Exclude the profile/STAR/deep-dive data."
       ),
   }),
   knowledgeGaps: z.array(
@@ -140,6 +147,11 @@ Candidate's own rating (1-5): ${session.rating ?? "n/a"}
 REQUIRED CHECKS — return exactly one entry in "checks" for EACH id below, with status pass/warn/fail and a short evidence-based detail:
 ${checklist}
 
+SCORING (overallScore, 1-10) — anchor it to the checks, do NOT default to a middling number:
+- If ALL checks pass and there are no ungrounded claims and no unanswered questions, the score must be 9 or 10.
+- Deduct about 1 for each "warn" and about 2-3 for each "fail" or each ungrounded claim.
+- Only give a 4-6 if there are genuine, substantive weaknesses. A clean interview should score high.
+
 GROUNDING IS CRITICAL: the agent must only state things supported by the candidate's profile, resume, deep dives, and personal answers.
 - List in "ungroundedClaims" every statement the agent made that is NOT backed by that data (fabricated experience, invented metrics/names, unsupported skills). If all claims are grounded, return an empty array and pass "grounded_in_data".
 - List in "unansweredQuestions" any question the agent was asked that the data could not properly answer — these specifically need a human to provide the missing information.
@@ -147,7 +159,7 @@ GROUNDING IS CRITICAL: the agent must only state things supported by the candida
 
 Then: identify strengths and weaknesses (quote the transcript), extract knowledge gaps and action items, and write a few regression eval cases.
 
-Finally, propose a MINIMAL patch to the base instructions ("promptPatch.newInstructions"). Make the smallest change that addresses the failed/warned checks and the issues above — preserve the existing wording and structure, and prefer adding or tweaking just a line or two over rewriting. Do NOT restructure the prompt. ${feedback ? "The HUMAN REVIEWER FEEDBACK above takes top priority and must be implemented (still as a minimal edit)." : ""} Do not include the profile/STAR/deep-dive data in newInstructions — only the editable instruction text.`;
+Finally, decide whether the prompt needs changing at all. If the agent performed well — all checks pass, nothing ungrounded, nothing unanswered${feedback ? "" : ", and there is no human feedback"} — set promptPatch.changesRecommended to FALSE, return the current base instructions unchanged, and say in the rationale that the prompt is performing well. Otherwise set changesRecommended TRUE and make a MINIMAL patch: the smallest change that addresses the failed/warned checks and the issues above — preserve the existing wording and structure, prefer adding or tweaking just a line or two, do NOT restructure. ${feedback ? "The HUMAN REVIEWER FEEDBACK above takes top priority and must be implemented (still as a minimal edit), so changesRecommended must be TRUE." : ""} Do not include the profile/STAR/deep-dive data in newInstructions.`;
 
   const { object } = await generateObject({
     model: openai(ANALYSIS_MODEL),
