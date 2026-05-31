@@ -362,15 +362,19 @@ export default function ReviewPage() {
                       </ul>
                     </Section>
 
-                    {a.actionItems.length > 0 && (
-                      <Section title="Action items">
+                    <Section title="Action items">
+                      {a.actionItems.length > 0 ? (
                         <ul className="list-inside list-disc text-sm">
                           {a.actionItems.map((s, i) => (
                             <li key={i}>{s}</li>
                           ))}
                         </ul>
-                      </Section>
-                    )}
+                      ) : (
+                        <p className="text-sm text-neutral-400">
+                          No follow-ups or commitments were made in this interview.
+                        </p>
+                      )}
+                    </Section>
 
                     {a.evalCases.length > 0 && (
                       <Section title="Eval cases (regression set)">
