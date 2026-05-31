@@ -34,8 +34,7 @@
     {
       "question": "Where do you see yourself in 3-5 years?",
       "answer": "I want to grow into a strong senior engineer with deep expertise in AI systems and scalable backends, someone who can own complex technical problems end to end and mentor others. The immediate priority is just to keep working on hard, meaningful problems and learn fast.",
-      "notes": "needsReview: adjust ambition/specialization to your real goals.",
-      "needsReview": true
+      "notes": "Confirmed by Rithwik."
     },
     {
       "question": "Why this company / why this role?",
@@ -49,18 +48,18 @@
     },
     {
       "question": "What are your salary expectations?",
-      "answer": "My current and expected CTC is around 35 LPA, but I'm flexible and open to discussing it based on the overall role, scope, and growth opportunity.",
-      "notes": "Don't lock a hard number aggressively; keep it open."
+      "answer": "My current CTC is around 30 LPA, and I'm looking at roughly 35 LPA, though I'm flexible and open to discussing it based on the overall role, scope, and growth opportunity.",
+      "notes": "Current 30, expected 35 (confirmed). Don't lock a hard number aggressively; keep it open."
     },
     {
       "question": "What is your notice period / when can you start? / Are you open to relocation?",
-      "answer": "I'd serve notice as per my current employment terms and can share specifics — happy to work out timelines. I'm also open to relocation and to remote roles.",
-      "notes": "From profile logistics. Keep flexible."
+      "answer": "My notice period is 30 days on paper, and I'm happy to work out the exact timeline that suits both sides. I'm also open to relocation and to remote roles.",
+      "notes": "Notice period: 30 days (confirmed). Keep flexible on exact start date."
     },
     {
       "question": "How do you keep up with new technologies?",
-      "answer": "I learn by building, I pick up new tools by using them on real projects, like the real-time speech translator or my agent work. I also follow what's happening in AI closely, since the field moves fast, and I lean on strong fundamentals so new frameworks are easy to map onto what I already know.",
-      "notes": "Genuine + grounded in the projects."
+      "answer": "I learn by building, I pick up new tools by using them on real projects, like the real-time speech translator or my agent work. I also read a lot of LinkedIn articles to keep a pulse on what's happening, and since AI moves fast I lean on strong fundamentals so new frameworks are easy to map onto what I already know.",
+      "notes": "Genuine + grounded in the projects. LinkedIn articles are a real source he uses."
     },
     {
       "question": "Do you have any questions for us?",

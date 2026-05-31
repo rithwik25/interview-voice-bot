@@ -8,6 +8,38 @@ import Link from "next/link";
 import { RealtimeClient, type ConnectionStatus } from "@/lib/realtime-client";
 import type { Speaker, ToolEvent, TranscriptTurn } from "@/lib/types";
 
+// Minimal typings for the browser Web Speech API (no DOM lib types for it).
+interface SRAlternative {
+  transcript: string;
+}
+interface SRResult {
+  0: SRAlternative;
+  isFinal: boolean;
+}
+interface SREvent {
+  resultIndex: number;
+  results: { length: number; [i: number]: SRResult };
+}
+interface SRInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((e: SREvent) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+type SRCtor = new () => SRInstance;
+
+function getSpeechRecognition(): SRCtor | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as {
+    SpeechRecognition?: SRCtor;
+    webkitSpeechRecognition?: SRCtor;
+  };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
+
 const STATUS_LABEL: Record<ConnectionStatus, string> = {
   idle: "Not connected",
   connecting: "Connecting…",
@@ -29,6 +61,10 @@ export default function InterviewPage() {
   const turnsRef = useRef<TranscriptTurn[]>([]);
   const toolsRef = useRef<ToolEvent[]>([]);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const recognitionRef = useRef<SRInstance | null>(null);
+  // True while the agent is talking — used to ignore the mic picking up the
+  // agent's own voice in the live caption preview (echo).
+  const agentSpeakingRef = useRef(false);
 
   // Remember the last-used job description locally so it persists between visits.
   useEffect(() => {
@@ -69,32 +105,89 @@ export default function InterviewPage() {
     });
   }, []);
 
+  // Live preview captions for the interviewer via the browser's Web Speech API.
+  // OpenAI's input transcription only finalizes after each utterance, so this gives
+  // a word-by-word preview while they speak. Best-effort, Chrome/Edge only.
+  const startLiveCaptions = useCallback(() => {
+    const SR = getSpeechRecognition();
+    if (!SR || recognitionRef.current) return;
+    const rec = new SR();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = "en-US";
+    rec.onresult = (e: SREvent) => {
+      // Ignore while the agent is speaking (avoid captioning the agent's own voice).
+      if (agentSpeakingRef.current) return;
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (!r.isFinal) interim += r[0].transcript;
+      }
+      if (interim.trim()) setPartial({ speaker: "interviewer", text: interim });
+    };
+    rec.onend = () => {
+      // Chrome stops periodically — restart while the call is live.
+      if (recognitionRef.current === rec) {
+        try {
+          rec.start();
+        } catch {
+          /* already started */
+        }
+      }
+    };
+    recognitionRef.current = rec;
+    try {
+      rec.start();
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const stopLiveCaptions = useCallback(() => {
+    const rec = recognitionRef.current;
+    recognitionRef.current = null;
+    if (rec) {
+      rec.onend = null;
+      try {
+        rec.stop();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, []);
+
   const connect = useCallback(async () => {
     setError(null);
     setTurns([]);
     setTools([]);
     setSaved(false);
+    agentSpeakingRef.current = false;
     const client = new RealtimeClient({
       onStatus: (s, detail) => {
         setStatus(s);
+        if (s === "connected") startLiveCaptions();
+        if (s === "closed" || s === "error") stopLiveCaptions();
         if (s === "error" && detail) setError(detail);
       },
       onTranscript: (t) => {
+        if (t.speaker === "agent") agentSpeakingRef.current = false;
         setTurns((prev) => [...prev, t]);
         setPartial(null);
       },
-      onPartial: (speaker, text) =>
+      onPartial: (speaker, text) => {
+        if (speaker === "agent") agentSpeakingRef.current = true;
         setPartial((prev) =>
           prev && prev.speaker === speaker
             ? { speaker, text: prev.text + text }
             : { speaker, text }
-        ),
+        );
+      },
       onTool: (e) => setTools((prev) => [...prev, e]),
       onError: (m) => setError(m),
     });
     clientRef.current = client;
     await client.connect({ jobDescription: jobDescription.trim() || undefined });
-  }, [jobDescription]);
+  }, [jobDescription, startLiveCaptions, stopLiveCaptions]);
 
   const end = useCallback(async () => {
     await persist(true);
@@ -108,6 +201,9 @@ export default function InterviewPage() {
     const id = setInterval(() => persist(false), 10000);
     return () => clearInterval(id);
   }, [status, persist]);
+
+  // Stop live captions if the page unmounts mid-call.
+  useEffect(() => () => stopLiveCaptions(), [stopLiveCaptions]);
 
   const toggleMic = () => {
     const next = !micOn;

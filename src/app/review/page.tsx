@@ -6,7 +6,24 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import type { AnalysisResult, PromptVersion, SessionRecord } from "@/lib/types";
+import {
+  ANALYSIS_CHECKS,
+  type AnalysisResult,
+  type CheckStatus,
+  type PromptVersion,
+  type SessionRecord,
+} from "@/lib/types";
+
+const CHECK_LABELS: Record<string, string> = Object.fromEntries(
+  ANALYSIS_CHECKS.map((c) => [c.id, c.label])
+);
+
+const STATUS_STYLE: Record<CheckStatus, string> = {
+  pass: "bg-green-100 text-green-700",
+  warn: "bg-amber-100 text-amber-700",
+  fail: "bg-red-100 text-red-700",
+};
+const STATUS_ICON: Record<CheckStatus, string> = { pass: "✓", warn: "!", fail: "✗" };
 
 export default function ReviewPage() {
   const [sessions, setSessions] = useState<SessionRecord[]>([]);
@@ -16,6 +33,7 @@ export default function ReviewPage() {
   const [editedInstructions, setEditedInstructions] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState("");
 
   const loadSessions = useCallback(async () => {
     const r = await fetch("/api/sessions").then((x) => x.json());
@@ -36,6 +54,7 @@ export default function ReviewPage() {
     setSelected(s);
     setMsg(null);
     setEditedInstructions(s.analysis?.promptPatch.newInstructions ?? "");
+    setFeedback(s.analysis?.humanFeedback ?? "");
   };
 
   const analyze = async () => {
@@ -46,7 +65,7 @@ export default function ReviewPage() {
       const r = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: selected.id }),
+        body: JSON.stringify({ sessionId: selected.id, humanFeedback: feedback }),
       }).then((x) => x.json());
       if (r.error) throw new Error(r.error);
       const analysis = r.analysis as AnalysisResult;
@@ -178,15 +197,37 @@ export default function ReviewPage() {
 
           {selected && (
             <>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={analyze}
-                  disabled={analyzing}
-                  className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50"
-                >
-                  {analyzing ? "Analyzing…" : a ? "Re-run analysis" : "Run analysis"}
-                </button>
-                {msg && <span className="text-sm text-neutral-600">{msg}</span>}
+              <div className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
+                <label className="text-sm font-medium">
+                  Your feedback (optional, highest priority)
+                </label>
+                <p className="mb-2 text-xs text-neutral-500">
+                  Add your own notes on this interview. The coach will prioritize this
+                  above its own judgment when rewriting the prompt — useful for questions
+                  the data couldn&apos;t answer.
+                </p>
+                <textarea
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="e.g. 'For the Kubernetes question, say I'm keen to learn it and have strong Docker/AWS fundamentals. Be more concise on the Quadeye answer.'"
+                  className="h-24 w-full rounded-md border border-neutral-300 p-3 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+                />
+                <div className="mt-2 flex items-center gap-3">
+                  <button
+                    onClick={analyze}
+                    disabled={analyzing}
+                    className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50"
+                  >
+                    {analyzing
+                      ? "Analyzing…"
+                      : a
+                      ? feedback.trim()
+                        ? "Re-run with my feedback"
+                        : "Re-run analysis"
+                      : "Run analysis"}
+                  </button>
+                  {msg && <span className="text-sm text-neutral-600">{msg}</span>}
+                </div>
               </div>
 
               {/* Transcript */}
@@ -218,6 +259,67 @@ export default function ReviewPage() {
                     <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
                       {a.summary}
                     </p>
+
+                    {a.needsHumanReview && (
+                      <div className="mt-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
+                        ⚑ <span className="font-semibold">Needs human review</span> — the
+                        agent made claims not in your data and/or hit questions it
+                        couldn&apos;t answer (see below). Add guidance in the feedback box
+                        and re-run.
+                      </div>
+                    )}
+
+                    <Section title="Quality checks">
+                      <ul className="space-y-1 text-sm">
+                        {(a.checks ?? []).map((c, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span
+                              className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${STATUS_STYLE[c.status]}`}
+                            >
+                              {STATUS_ICON[c.status]}
+                            </span>
+                            <span>
+                              <span className="font-medium">
+                                {CHECK_LABELS[c.id] ?? c.id}
+                              </span>
+                              {c.detail && (
+                                <span className="block text-neutral-500">{c.detail}</span>
+                              )}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Section>
+
+                    {a.ungroundedClaims?.length > 0 && (
+                      <Section title="⚠ Ungrounded claims (not in your data)">
+                        <ul className="space-y-1 text-sm">
+                          {a.ungroundedClaims.map((u, i) => (
+                            <li key={i}>
+                              <span className="font-medium text-red-600">
+                                &ldquo;{u.quote}&rdquo;
+                              </span>
+                              <span className="block text-neutral-500">↳ {u.issue}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </Section>
+                    )}
+
+                    {a.unansweredQuestions?.length > 0 && (
+                      <Section title="❓ Questions your data couldn't answer (need your input)">
+                        <ul className="space-y-1 text-sm">
+                          {a.unansweredQuestions.map((q, i) => (
+                            <li key={i}>
+                              <span className="font-medium">{q.question}</span>
+                              <span className="block text-neutral-500">
+                                ↳ missing: {q.whatWasMissing}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </Section>
+                    )}
 
                     <Section title="Strengths">
                       <ul className="list-inside list-disc text-sm">

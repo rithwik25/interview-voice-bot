@@ -7,16 +7,46 @@ import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 import { getSession, saveSession, getPromptVersions } from "@/lib/store";
-import type { AnalysisResult } from "@/lib/types";
+import { ANALYSIS_CHECKS, type AnalysisResult, type CheckId } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
 const ANALYSIS_MODEL = process.env.ANALYSIS_MODEL ?? "gpt-4o";
 
+const checkIds = ANALYSIS_CHECKS.map((c) => c.id) as [CheckId, ...CheckId[]];
+
 const schema = z.object({
   summary: z.string().describe("2-3 sentence summary of how the interview went"),
   overallScore: z.number().min(1).max(10),
+  checks: z
+    .array(
+      z.object({
+        id: z.enum(checkIds),
+        status: z.enum(["pass", "warn", "fail"]),
+        detail: z.string().describe("brief justification, citing the transcript"),
+      })
+    )
+    .describe("Exactly one entry for EACH required check id."),
+  ungroundedClaims: z
+    .array(
+      z.object({
+        quote: z.string().describe("the exact thing the agent said"),
+        issue: z.string().describe("why it isn't supported by the candidate's data"),
+      })
+    )
+    .describe("Statements the agent made that are NOT backed by the profile/resume/deep-dives/personal answers. Empty if all grounded."),
+  unansweredQuestions: z
+    .array(
+      z.object({
+        question: z.string(),
+        whatWasMissing: z.string().describe("what data was missing to answer it well"),
+      })
+    )
+    .describe("Questions the agent was asked that the provided data could NOT properly answer — these need human input."),
+  needsHumanReview: z
+    .boolean()
+    .describe("true if there were any ungroundedClaims or unansweredQuestions, or any grounding-related check failed."),
   strengths: z.array(z.string()),
   weaknesses: z.array(
     z.object({
@@ -53,11 +83,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "OPENAI_API_KEY not set" }, { status: 500 });
   }
 
-  const { sessionId } = await req.json();
+  const { sessionId, humanFeedback } = await req.json();
   const session = await getSession(sessionId);
   if (!session) {
     return NextResponse.json({ error: "Session not found" }, { status: 404 });
   }
+  const feedback = typeof humanFeedback === "string" ? humanFeedback.trim() : "";
 
   const versions = await getPromptVersions();
   const usedVersion =
@@ -76,9 +107,19 @@ export async function POST(req: Request) {
     ? `\nThe interview was for this TARGET ROLE / JOB DESCRIPTION:\n"""\n${session.jobDescription}\n"""\nWhere relevant, judge how well the agent tailored answers to this role and tied the candidate's experience to it.\n`
     : "";
 
-  const prompt = `You are an expert interview coach AND prompt engineer. You are improving a VOICE AGENT that answers job interviews on behalf of a candidate.
-${jdBlock}
+  const checklist = ANALYSIS_CHECKS.map((c) => `- ${c.id}: ${c.label}`).join("\n");
 
+  const feedbackBlock = feedback
+    ? `\n================ HUMAN REVIEWER FEEDBACK — HIGHEST PRIORITY ================
+A human reviewed this interview and gave the following feedback. Treat it as the single MOST IMPORTANT signal in this whole analysis. Your promptPatch MUST directly and explicitly implement this feedback. Where it conflicts with your own judgment, the human feedback WINS. Call out in promptPatch.rationale exactly how you applied it.
+"""
+${feedback}
+"""
+`
+    : "";
+
+  const prompt = `You are an expert interview coach AND prompt engineer. You are improving a VOICE AGENT that answers job interviews on behalf of a candidate.
+${jdBlock}${feedbackBlock}
 The agent's CURRENT base instructions (the editable part you can rewrite) were:
 """
 ${usedVersion.instructions}
@@ -93,9 +134,18 @@ The agent self-flagged uncertainty on these topics during the call:
 ${flagged || "(none)"}
 
 Candidate's own rating (1-5): ${session.rating ?? "n/a"}
-Candidate's notes: ${session.notes ?? "n/a"}
 
-Analyze the agent's performance: where answers were weak, slow, off-tone, too long, evasive, or not grounded. Then propose an improved version of the base instructions that fixes those issues while preserving what worked. Extract knowledge gaps (things the agent didn't know about the candidate), any action items/commitments, and a few regression eval cases.`;
+REQUIRED CHECKS — return exactly one entry in "checks" for EACH id below, with status pass/warn/fail and a short evidence-based detail:
+${checklist}
+
+GROUNDING IS CRITICAL: the agent must only state things supported by the candidate's profile, resume, deep dives, and personal answers.
+- List in "ungroundedClaims" every statement the agent made that is NOT backed by that data (fabricated experience, invented metrics/names, unsupported skills). If all claims are grounded, return an empty array and pass "grounded_in_data".
+- List in "unansweredQuestions" any question the agent was asked that the data could not properly answer — these specifically need a human to provide the missing information.
+- Set "needsHumanReview" to true if there are any ungroundedClaims or unansweredQuestions, or if grounding failed.
+
+Then: identify strengths and weaknesses (quote the transcript), extract knowledge gaps and action items, and write a few regression eval cases.
+
+Finally, propose an improved version of the base instructions ("promptPatch.newInstructions") that fixes the failed/warned checks and the issues above while preserving what worked. ${feedback ? "Remember: the HUMAN REVIEWER FEEDBACK above takes top priority and must be implemented." : ""} Do not include the profile/STAR/deep-dive data in newInstructions — only the editable instruction text.`;
 
   const { object } = await generateObject({
     model: openai(ANALYSIS_MODEL),
@@ -103,8 +153,16 @@ Analyze the agent's performance: where answers were weak, slow, off-tone, too lo
     prompt,
   });
 
-  const analysis: AnalysisResult = { ...object, analyzedAt: Date.now() };
-  await saveSession({ ...session, analysis });
+  const analysis: AnalysisResult = {
+    ...object,
+    humanFeedback: feedback || undefined,
+    analyzedAt: Date.now(),
+  };
+  await saveSession({
+    ...session,
+    analysis,
+    notes: feedback || session.notes,
+  });
 
   return NextResponse.json({ analysis });
 }
