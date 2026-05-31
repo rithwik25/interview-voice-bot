@@ -1,0 +1,52 @@
+{
+  "stories": [
+    {
+      "title": "Real-time AI <-> enterprise integration via MCP + FastAPI/SSE (Cornerstone)",
+      "tags": ["system design", "real-time", "backend", "AI agents", "current role"],
+      "situation": "At Cornerstone OnDemand, AI models needed a standardized, secure way to use enterprise tools and stream results back to internal systems.",
+      "task": "Design integration infrastructure so AI agents could call enterprise services and communicate in real time.",
+      "action": "Designed and built MCP (Model Context Protocol) servers to expose enterprise tools to AI models, and built scalable FastAPI backends using Server-Sent Events (SSE) for low-latency streaming between agents and internal systems.",
+      "result": "Enabled seamless, real-time AI-agent-to-system communication on standardized, maintainable infrastructure."
+    },
+    {
+      "title": "SVN + GitLab code-review agent that cut review latency (Quadeye)",
+      "tags": ["automation", "latency", "agents", "version control"],
+      "situation": "Code review at a high-frequency trading firm spanned both SVN and GitLab and was slow and manual.",
+      "task": "Automate fetching, validating and managing incoming review requests/PRs across both systems.",
+      "action": "Built a review agent that handled the full workflow and optimized SVN handling via efficient base-checkout mechanisms to avoid redundant work.",
+      "result": "Automated the review pipeline and measurably improved review latency."
+    },
+    {
+      "title": "Safe server-janitor service with S3 ETag verification (Quadeye)",
+      "tags": ["backend", "infrastructure", "correctness", "AWS"],
+      "situation": "Obsolete files were accumulating across many servers; naive deletion risked removing files that weren't safely backed up.",
+      "task": "Automatically clean obsolete files without ever deleting something not verified to exist in S3.",
+      "action": "Used `lfs find` for efficient file discovery and compared ETag (MD5) between disk and S3 to verify existence before any deletion.",
+      "result": "Reclaimed storage safely across multiple servers with a correctness guarantee against accidental data loss."
+    },
+    {
+      "title": "Voice-bot quality + latency optimization (Navi)",
+      "tags": ["AI", "voice", "latency", "prompt engineering", "highly relevant"],
+      "situation": "Navi's customer-facing voice bot needed better response quality and lower latency.",
+      "task": "Improve response quality while reducing perceived latency.",
+      "action": "Led prompt-engineering improvements and applied latency-optimization techniques to the voice pipeline.",
+      "result": "Improved response quality and responsiveness of the voice bot. (Directly relevant experience to building low-latency voice agents.)"
+    },
+    {
+      "title": "Multimodal RAG + LoRA fine-tuning (Bosch)",
+      "tags": ["AI/ML", "RAG", "fine-tuning", "PyTorch"],
+      "situation": "A use case required generating image-based outputs grounded in retrieved context.",
+      "task": "Build multimodal RAG and adapt vision-language models to the domain.",
+      "action": "Engineered a multimodal RAG pipeline for image-based outputs and fine-tuned blip-2 and idefics-9b using LoRA on custom datasets with PyTorch.",
+      "result": "Delivered domain-adapted multimodal generation with parameter-efficient fine-tuning."
+    },
+    {
+      "title": "Real-time Speech Translator (personal project)",
+      "tags": ["real-time", "websockets", "web audio", "full-stack", "highly relevant"],
+      "situation": "Wanted seamless cross-language spoken communication in the browser.",
+      "task": "Build a full-stack real-time speech translator.",
+      "action": "Implemented WebSocket connections for real-time transport and used the Web Audio API for efficient audio capture/processing.",
+      "result": "Shipped a working live translator (realtime-speech-translator.netlify.app). Demonstrates hands-on real-time browser audio + streaming skills."
+    }
+  ]
+}

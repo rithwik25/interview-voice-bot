@@ -1,0 +1,147 @@
+{
+  "full_name": "Rithwik V Khera",
+  "email": "r_vkhera@cs.iitr.ac.in",
+  "phone": "+91-9315082883",
+  "location": "Delhi / Hyderabad, India",
+  "linkedin_url": "https://www.linkedin.com/in/rithwik-v-khera-ba5ba8223/",
+  "portfolio_url": "https://rithwikportfolio.netlify.app/",
+  "github_url": "https://github.com/rithwik25",
+  "years_experience": 1,
+  "additional_months_experience": 2,
+  "skills": [
+    "Python", "TypeScript", "JavaScript", "C++", "SQL",
+    "React", "Next.js", "FastAPI", "Flask", "Django", "Redis", "Celery",
+    "AWS", "Docker", "MySQL", "Linux", "Shell Scripting", "Grafana",
+    "Langchain", "CrewAI", "LiveKit", "PyTorch", "TensorFlow", "Keras", "Sklearn",
+    "Websockets", "Server-Sent Events (SSE)", "Model Context Protocol (MCP)",
+    "Database Query Optimization", "Scalable System Development"
+  ],
+  "work_authorization": "Indian Citizen",
+  "requires_sponsorship": false,
+  "current_ctc_lpa": 30,
+  "expected_ctc_lpa": 30,
+  "education": {
+    "degree": "B.Tech Computer Science",
+    "institute": "IIT Roorkee",
+    "cgpa": "8.13/10",
+    "graduation_year": 2025
+  },
+  "work_experience": [
+    {
+      "role": "AI Engineer",
+      "company": "Cornerstone OnDemand",
+      "location": "Hyderabad",
+      "duration": "February 2026 - Present",
+      "is_current": true,
+      "description": [
+        "Designing and developing MCP (Model Context Protocol) servers to enable seamless integration between AI models and enterprise tools and services",
+        "Building and maintaining scalable backend APIs using FastAPI with Server-Sent Events (SSE), enabling real-time, efficient communication between AI agents and internal systems"
+      ]
+    },
+    {
+      "role": "Software Developer",
+      "company": "Quadeye Securities",
+      "location": "Gurugram",
+      "duration": "August 2025 - December 2025",
+      "is_current": false,
+      "description": [
+        "Developed an SVN + GitLab review agent to automate code review workflows by fetching, validating and managing all incoming review requests/PRs; optimized it for SVN repositories via efficient base checkout mechanisms, improving review latency",
+        "Built a server janitor service to automatically clean obsolete files across multiple servers, leveraging lfs find for efficient file discovery and ETag(MD5) comparison between disk and S3 to safely verify existence before deletion",
+        "Optimized internal web dashboards built with Next.js by improving rendering performance, API data fetching patterns, and component efficiency, reducing page load times and enhancing user responsiveness for trading and monitoring workflows"
+      ]
+    },
+    {
+      "role": "AI Scientist",
+      "company": "Navi",
+      "location": "Bangalore",
+      "duration": "June 2025 - August 2025",
+      "is_current": false,
+      "description": [
+        "Led development of voice bot response quality improvements through prompt engineering and latency optimization techniques",
+        "Developed AI solutions for fintech applications, focusing on risk assessment and customer analytics"
+      ]
+    }
+  ],
+  "internships": [
+    {
+      "role": "AI Intern",
+      "company": "Elyx Life",
+      "location": "Singapore",
+      "duration": "April 2025 - June 2025",
+      "description": [
+        "Enhanced Synthea's backend to generate synthetic patient data in FHIR format with custom variables and VitalSigns",
+        "Developed an interactive full-stack website that processes natural language queries to generate synthetic patient data"
+      ]
+    },
+    {
+      "role": "AI Software Intern",
+      "company": "Zeal AI",
+      "location": "San Francisco",
+      "duration": "March 2025 - April 2025",
+      "description": [
+        "Optimized restaurant recommendation systems using Python and AI-driven personalization workflows",
+        "Developed APIs and responsive user interfaces using React, JavaScript, FastAPI"
+      ]
+    },
+    {
+      "role": "Gen-AI Intern",
+      "company": "GrowHut",
+      "location": "Gurugram",
+      "duration": "January 2025 - March 2025",
+      "description": [
+        "Integrated multimodal capabilities in AI voice-agents enabling real-time analysis of user screen shares",
+        "Deployed AI workflows on AWS Lambdas for scalable and efficient processing"
+      ]
+    },
+    {
+      "role": "AI/ML Intern",
+      "company": "Bosch Global Software Technologies",
+      "location": "Bengaluru",
+      "duration": "May 2024 - July 2024",
+      "description": [
+        "Engineered Multimodal Retrieval-Augmented Generation (RAG) solutions for image-based outputs",
+        "Fine-tuned LLMs (blip-2, idefics-9b) using LoRA on custom datasets with PyTorch"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Real-time Speech Translator",
+      "date": "July 2025",
+      "url": "https://realtime-speech-translator.netlify.app",
+      "description": "Built a full-stack real-time speech translator using WebSocket connections and the Web Audio API for seamless cross-language communication"
+    },
+    {
+      "name": "Auto-Analyst",
+      "date": "August 2024",
+      "description": "Automated data analyst tasks using a LangGraph-based multi-agent architecture with SQL querying, dynamic visualizations, and financial forecasting"
+    },
+    {
+      "name": "Portfolio Website",
+      "url": "https://rithwikportfolio.netlify.app/",
+      "description": "Developed and deployed a comprehensive portfolio website using React, HTML, JavaScript and modern web technologies"
+    }
+  ],
+  "achievements": [
+    "Secured global rank 755 in Codeforces Round 185",
+    "Global ranks on CodeChef: 279 (Starters 125 Div 3), 296 (Starters 153 Div 2), 238 (Starters 212 Div 2)",
+    "Campus rank 3 (round 1) and National rank 26 (round 2) in GfG x Naukri's Engineering Ring of Honor Contest",
+    "Competitive Programming Rating: CodeChef - 1829"
+  ],
+  "references": [
+    {
+      "name": "Pradumn Kumar Pandey",
+      "title": "Professor, Dept. of Computer Science Engineering, IIT Roorkee",
+      "email": "pradumn.pandey@cs.iitr.ac.in",
+      "phone": "+91-7409889713"
+    }
+  ],
+  "preferred_domains": [
+    "Software Engineering", "AI/ML", "Backend", "Full-Stack", "Frontend"
+  ],
+  "logistics": {
+    "notice_period": "As per current employment terms; available to discuss specifics",
+    "relocation": "Open to relocation and remote roles",
+    "work_authorization_note": "Indian citizen; does not require sponsorship to work in India"
+  }
+}
