@@ -56,11 +56,13 @@ const schema = z.object({
     })
   ),
   promptPatch: z.object({
-    rationale: z.string().describe("why these prompt changes will improve the agent"),
+    rationale: z
+      .string()
+      .describe("briefly summarize the minimal change(s) you made and why"),
     newInstructions: z
       .string()
       .describe(
-        "the COMPLETE rewritten base instructions (do not include the profile/STAR data — only the editable instruction text). Keep what works, fix what didn't."
+        "The base instructions with MINIMAL edits. Preserve the existing wording and structure verbatim; change only what is strictly necessary to address the issues/feedback — ideally just adding or tweaking a line or two. Do NOT rewrite, reorder, or restructure the prompt. Return the full instruction text with those minimal edits applied (exclude the profile/STAR/deep-dive data)."
       ),
   }),
   knowledgeGaps: z.array(
@@ -145,7 +147,7 @@ GROUNDING IS CRITICAL: the agent must only state things supported by the candida
 
 Then: identify strengths and weaknesses (quote the transcript), extract knowledge gaps and action items, and write a few regression eval cases.
 
-Finally, propose an improved version of the base instructions ("promptPatch.newInstructions") that fixes the failed/warned checks and the issues above while preserving what worked. ${feedback ? "Remember: the HUMAN REVIEWER FEEDBACK above takes top priority and must be implemented." : ""} Do not include the profile/STAR/deep-dive data in newInstructions — only the editable instruction text.`;
+Finally, propose a MINIMAL patch to the base instructions ("promptPatch.newInstructions"). Make the smallest change that addresses the failed/warned checks and the issues above — preserve the existing wording and structure, and prefer adding or tweaking just a line or two over rewriting. Do NOT restructure the prompt. ${feedback ? "The HUMAN REVIEWER FEEDBACK above takes top priority and must be implemented (still as a minimal edit)." : ""} Do not include the profile/STAR/deep-dive data in newInstructions — only the editable instruction text.`;
 
   const { object } = await generateObject({
     model: openai(ANALYSIS_MODEL),

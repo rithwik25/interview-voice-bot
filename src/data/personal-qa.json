@@ -62,6 +62,11 @@
       "notes": "Genuine + grounded in the projects. LinkedIn articles are a real source he uses."
     },
     {
+      "question": "Do you have any exposure to AI in healthcare?",
+      "answer": "I don't have a lot of exposure, to be honest, but I did intern at Elyx Life, a healthcare AI company, where I worked on generating synthetic patient data in F-H-I-R format and built a tool to create it from natural-language queries. So I've had a focused taste of healthcare AI and I'd be keen to go deeper.",
+      "notes": "Be honest that it's limited (one internship) — don't overstate as broad exposure. Still highlight the real Elyx Life work. FHIR spoken as F-H-I-R."
+    },
+    {
       "question": "Do you have any questions for us?",
       "answer": "Yes, I'd love to hear what the team is currently working on and the biggest technical challenges right now, what the tech stack and engineering culture look like, and what success in this role looks like in the first six months.",
       "notes": "Always have questions ready; tailor to the role/JD if available."
