@@ -13,7 +13,7 @@ export const REALTIME_TOOLS = [
     type: "function",
     name: "flag_uncertain",
     description:
-      "Call this whenever you are asked something you cannot answer confidently from the candidate's profile/resume, or when you had to deflect or give a non-grounded answer. Used for post-interview review. Does not interrupt the conversation.",
+      "REQUIRED: Call this immediately after your spoken response whenever: (1) you were asked about a technology/skill/experience not in the profile, (2) you had to deflect or bridge to something tangentially related, (3) you stated a specific metric, date, or implementation detail not explicitly in your data, or (4) you had any doubt your answer was fully grounded. This call is silent and never interrupts speech. Over-flagging is always preferred over missing a flag.",
     parameters: {
       type: "object",
       properties: {

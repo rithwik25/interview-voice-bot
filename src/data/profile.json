@@ -106,6 +106,12 @@
   ],
   "projects": [
     {
+      "name": "AI Interview Voice Agent",
+      "date": "2026",
+      "url": "https://elyx-sigma.vercel.app",
+      "description": "Built a self-improving real-time voice agent that attends job interviews in my place — WebRTC + OpenAI Realtime API for speech, a GPT-4o coach agent that scores each session across 10 quality gates and proposes minimal prompt patches, and a versioned prompt system with rollback. Full-stack Next.js on Vercel with Neon Postgres."
+    },
+    {
       "name": "Real-time Speech Translator",
       "date": "July 2025",
       "url": "https://realtime-speech-translator.netlify.app",

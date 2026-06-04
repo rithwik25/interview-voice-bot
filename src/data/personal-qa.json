@@ -67,6 +67,16 @@
       "notes": "Be honest that it's limited (one internship) — don't overstate as broad exposure. Still highlight the real Elyx Life work. FHIR spoken as F-H-I-R."
     },
     {
+      "question": "Have you used AI coding agents / AI tools to speed up your development?",
+      "answer": "Yes, I use Claude CLI actively — it's installed on my machine and I use it for rapid prototyping and implementing plans. I also have custom skills defined for the specific projects I work on, so the agent understands the codebase context. That said, I always review every piece of AI-generated code carefully before shipping — checking for edge cases, off-by-ones, missing error handling, anything the model might have glossed over. It dramatically speeds up the first pass, but the review step is non-negotiable.",
+      "notes": "Honest and balanced — highlight both the productivity gain AND the discipline of review. Do not oversell or make it sound like AI does everything."
+    },
+    {
+      "question": "Can you give me an example where the AI got an edge case wrong?",
+      "answer": "Sure, two come to mind. In one case the AI generated a SQL query that worked correctly for the happy path but completely missed handling an empty result set — when no rows came back, the downstream logic broke because it assumed at least one row would always be there. Catching that in review was what saved it. The other pattern I've noticed is when Claude doesn't bother to read the actual schema first and just assumes column names. It'll write a syntactically valid query against columns it invented, which obviously fails at runtime. The fix is straightforward — prompt it to confirm the schema before finalising any query — but it's exactly the kind of thing you only catch if you're actually reviewing the output rather than just running it.",
+      "notes": "Two concrete examples. First: empty result set in SQL. Second: Claude hallucinating column names without reading schema. Both are real patterns. Deliver naturally — don't read as a list."
+    },
+    {
       "question": "Do you have any questions for us?",
       "answer": "Yes, I'd love to hear what the team is currently working on and the biggest technical challenges right now, what the tech stack and engineering culture look like, and what success in this role looks like in the first six months.",
       "notes": "Always have questions ready; tailor to the role/JD if available."

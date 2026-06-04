@@ -203,6 +203,56 @@ LIKELY FOLLOW-UPS
 `.trim(),
   },
   {
+    id: "elyx-voice-interview-agent",
+    title: "AI Interview Voice Agent (self-improving)",
+    context: "Personal Project (2026) — elyx-sigma.vercel.app",
+    content: `
+WHAT IT IS
+- A real-time voice agent that attends job interviews on my behalf, answering questions in first person using my actual resume, STAR stories, and technical deep-dives. Built end-to-end: WebRTC audio, OpenAI Realtime API, a post-call coach agent that analyzes performance and proposes prompt improvements, and a versioned prompt system so every session makes the agent better.
+- Two main loops: (1) the live interview loop — real-time speech in/out via OpenAI's Realtime API, grounded entirely in my profile data; (2) the self-improvement loop — after each session, a GPT-4o coach agent scores the transcript across 10 quality gates and proposes minimal prompt patches that the human reviews and applies.
+
+TECH STACK
+- Frontend: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4
+- Realtime: OpenAI Realtime API (gpt-realtime model), WebRTC for audio transport, Web Speech API for live interviewer captions
+- Coach agent: Vercel AI SDK (generateObject), GPT-4o, Zod v4 for structured output validation
+- Storage: Neon PostgreSQL (production via Vercel Marketplace) / local file store (dev) — abstracted behind a facade
+- Deployed on Vercel
+
+HOW THE LIVE INTERVIEW WORKS
+- Browser hits my Next.js API (/api/session): server fetches the active prompt version and assembles the full system prompt — base instructions + rendered profile + 6 STAR stories + personal Q&A answers + 7 technical deep-dives + optional job description (if pasted). All of this is bound server-side to an ephemeral OpenAI Realtime token; my real API key never leaves the server.
+- Browser uses that token to open a WebRTC peer connection directly to OpenAI. Audio flows browser ↔ OpenAI with zero server relay — the server is completely out of the media path after the token handshake.
+- Turn detection uses semantic VAD (not silence-based), so natural mid-thought pauses don't trigger a premature turn cutoff.
+- The agent has one tool: flag_uncertain(topic, reason) — a silent side-channel call after answering questions the data doesn't fully cover, used to log gaps without interrupting speech. The browser ACKs the call and triggers response.create so the model continues speaking immediately.
+- Transcript is auto-saved to the server every 10 seconds during the call for resilience, plus a final save on end.
+- The Web Speech API runs in parallel to OpenAI transcription and provides instant word-by-word captions for the interviewer; it's silenced when the agent is speaking to avoid echo.
+
+HOW THE SELF-IMPROVEMENT LOOP WORKS
+- After the session, I go to /review, optionally type human feedback (e.g. "for the Kubernetes question, bridge to your Docker/AWS fundamentals"), and click Run Analysis.
+- The server sends the full transcript + the exact prompt version used in that session to GPT-4o via generateObject() with a strict Zod schema. Structured output is guaranteed — no JSON parse failures.
+- The coach evaluates 10 quality gates: grounded_in_data, polite_and_respectful, no_excessive_repetition, no_stuck_or_loops, stayed_in_persona, answers_concise, answered_the_question, professional_about_employers, no_self_contradiction, no_prompt_or_ai_leak. Each gets Pass/Warn/Fail + evidence from the transcript.
+- The coach also surfaces: ungrounded claims (hallucinations with direct quotes), unanswered questions (data gaps), strengths, weaknesses with severity, knowledge gaps to add to the profile, action items, and eval cases for regression testing.
+- Most importantly it produces a promptPatch: changesRecommended + proposed new instructions. The rule is minimal edits only — preserve existing wording and structure, change only what's strictly necessary (typically 1-2 lines). Human feedback is treated as highest priority.
+- I review/edit the proposed patch in the UI and click Apply — the server creates a new immutable PromptVersion (v2, v3, ...) and deactivates the old one. Old versions are preserved forever, rollback is one click.
+
+KEY DECISIONS / TRADEOFFS
+- WebRTC direct vs server-relayed audio: chose WebRTC direct so the server is never in the media path. Any server relay adds a serialization hop and propagation delay both ways — WebRTC gives the lowest possible floor for audio latency. The tradeoff is you need ephemeral tokens (since the browser talks to OpenAI directly) and you lose visibility into the audio stream server-side, but for an interview agent latency matters more than server-side audio visibility.
+- Ephemeral tokens for security: browser only ever gets a short-lived token bound to this session's config. Real API key + full instructions (with all personal data) stay on the server. This also means the interviewer's browser can't read the full system prompt or extract the profile.
+- Full context loading vs RAG: the entire profile + stories + deep dives fits in the Realtime model's context window, so I load it all once at session mint time. No retrieval round-trips needed during the call, which would add latency. The tradeoff is a larger prompt and higher token cost, but for a personal agent the profile is small enough that this is the right call.
+- Semantic VAD over silence-based: standard energy/silence VAD fires on any quiet pause, which chops responses mid-sentence when thinking. Semantic VAD waits for a complete thought — better for technical interview answers where the speaker naturally pauses to structure a complex response.
+- Zod schema for coach output: generateObject with a Zod schema guarantees all 10 checks are always returned, scores are in bounds, and the promptPatch always includes newInstructions. Without this, a free-form JSON response would occasionally miss fields or return wrong types — especially bad for the patch that gets applied to production.
+- Minimal patch philosophy: prompt patches preserve structure and only change what's broken. Full rewrites would drift the agent's personality, throw away fine-tuned wording from earlier sessions, and make it hard to diff what changed. The changelog + derivedFromSession fields make the history traceable.
+- Facade pattern for storage: the API routes call a single store.ts interface; behind it is either file-based (dev, no setup) or Neon Postgres (prod, auto-provisioned via Vercel). Switching is transparent — no changes to API routes.
+
+LIKELY FOLLOW-UPS
+- "How do you keep the agent from hallucinating?" → The full profile is in context, so grounding needs zero retrieval. The instructions explicitly forbid inventing facts and require flag_uncertain for any gap. The coach agent then audits every session for ungrounded claims and feeds violations back as patch signal.
+- "Why not a simpler STT→LLM→TTS pipeline?" → Three serialized hops accumulate latency — transcription + inference + synthesis + network each add up. The OpenAI Realtime API handles the full audio-in/audio-out loop in one pass, matching the finding from my Navi work where speech-to-speech was strictly lower latency than a tuned pipeline.
+- "How does the self-improvement loop converge?" → Each session's coach output adds signal — ungrounded claims identify data gaps to fill, Warn/Fail checks identify prompt rules to tighten, human feedback provides the highest-priority steering. Minimal edits mean the prompt converges incrementally rather than oscillating from big rewrites.
+- "What's the hardest part of building a voice agent?" → Turn detection and latency. Semantic VAD helps with the first; direct WebRTC and loading context once at session start help with the second. The other hard part is grounding — a voice agent that hallucinations facts in an interview is worse than no agent at all.
+- "How do you handle rollback if a new prompt version is worse?" → Every version is immutable and stored. The /review page shows all versions with their changelogs and derivedFromSession links. One click on any old version activates it and deactivates the current one — the next interview session picks it up immediately.
+- "What would you add next?" → Automated eval: run the eval cases from each session's analysis against the current prompt version before applying a patch, so regressions are caught before going live. Also richer knowledge gap → profile update flow — right now knowledge gaps are surfaced but manually added to the data files.
+`.trim(),
+  },
+  {
     id: "auto-analyst",
     title: "Auto-Analyst — LangGraph multi-agent data analyst",
     context: "Project (Aug 2024)",
