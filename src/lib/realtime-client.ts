@@ -164,7 +164,10 @@ export class RealtimeClient {
           /* ignore parse errors */
         }
         this.cb.onTool?.({ name, args, ts: Date.now() });
-        // Return a no-op output and let the model continue speaking.
+        // Acknowledge the function call. For flag_uncertain specifically, do NOT
+        // send response.create — the agent has already finished speaking and
+        // flag_uncertain is a silent post-response signal. Sending response.create
+        // here would cause the model to generate an unwanted second audio turn.
         this.send({
           type: "conversation.item.create",
           item: {
@@ -173,7 +176,9 @@ export class RealtimeClient {
             output: JSON.stringify({ acknowledged: true }),
           },
         });
-        this.send({ type: "response.create" });
+        if (name !== "flag_uncertain") {
+          this.send({ type: "response.create" });
+        }
         break;
       }
 

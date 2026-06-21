@@ -35,7 +35,7 @@ export function buildSessionConfig(instructions: string) {
     instructions,
     audio: {
       input: {
-        transcription: { model: TRANSCRIBE_MODEL },
+        transcription: { model: TRANSCRIBE_MODEL, language: "en" },
         // Semantic VAD waits for the interviewer to finish a thought instead of
         // triggering on every silence — more natural turn-taking.
         turn_detection: { type: "semantic_vad" },
