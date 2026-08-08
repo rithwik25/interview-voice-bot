@@ -31,7 +31,7 @@ Interviewer browser ──WebRTC audio──► OpenAI Realtime (gpt-realtime)
 ## Setup
 
 ```bash
-cp .env.local.example .env.local   # add your OPENAI_API_KEY
+cp .env.example .env.local   # add your real values
 npm install
 npm run dev
 ```
@@ -48,8 +48,8 @@ Live at **https://elyx-sigma.vercel.app** (Vercel project `rithwik-7088s-project
   dispatches to Postgres when `DATABASE_URL` is set, else to the local `.data/` file
   store — so local dev needs zero DB setup. Schema is auto-created on first request
   (`src/lib/db.ts` → `ensureSchema`).
-- **Env vars on Vercel**: `OPENAI_API_KEY` (production + dev), `DATABASE_URL`
-  (production + preview).
+- **Env vars on Vercel**: `OPENAI_API_KEY`, `APP_BASIC_AUTH_USERNAME`,
+  `APP_BASIC_AUTH_PASSWORD`, and `DATABASE_URL` (production + preview).
 - **Redeploy**: `vercel deploy --prod`.
 
 ## Key files
