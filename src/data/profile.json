@@ -1,20 +1,55 @@
 {
   "full_name": "Rithwik V Khera",
-  "email": "r_vkhera@cs.iitr.ac.in",
+  "email": "rithwikkhera@gmail.com",
   "phone": "+91-9315082883",
   "location": "Delhi / Hyderabad, India",
   "linkedin_url": "https://www.linkedin.com/in/rithwik-v-khera-ba5ba8223/",
   "portfolio_url": "https://rithwikportfolio.netlify.app/",
   "github_url": "https://github.com/rithwik25",
   "years_experience": 1,
-  "additional_months_experience": 2,
+  "additional_months_experience": 1,
   "skills": [
-    "Python", "TypeScript", "JavaScript", "C++", "SQL",
-    "React", "Next.js", "FastAPI", "Flask", "Django", "Redis", "Celery",
-    "AWS", "Docker", "MySQL", "Linux", "Shell Scripting", "Grafana",
-    "Langchain", "CrewAI", "LiveKit", "PyTorch", "TensorFlow", "Keras", "Sklearn",
-    "Websockets", "Server-Sent Events (SSE)", "Model Context Protocol (MCP)",
-    "Database Query Optimization", "Scalable System Development"
+    "Python",
+    "TypeScript",
+    "SQL",
+    "Bash",
+    "Java",
+    "React",
+    "Next.js",
+    "FastAPI",
+    "Django",
+    "Expo",
+    "RAG",
+    "Agentic Workflows",
+    "Prompt Engineering",
+    "LLM Evals",
+    "Model Context Protocol (MCP)",
+    "LangChain",
+    "LangGraph",
+    "Jest",
+    "Maestro",
+    "Pytest",
+    "Vitest",
+    "Playwright",
+    "Cursor",
+    "Claude Code",
+    "Codex",
+    "REST APIs",
+    "WebSockets",
+    "System Design",
+    "Inngest",
+    "Redis",
+    "AWS",
+    "Docker",
+    "Datadog",
+    "PostHog",
+    "Amplitude",
+    "PyTorch",
+    "LoRA",
+    "LiveKit",
+    "VAPI",
+    "ElevenLabs",
+    "Dify"
   ],
   "work_authorization": "Indian Citizen",
   "requires_sponsorship": false,
@@ -29,58 +64,37 @@
   "work_experience": [
     {
       "role": "AI Engineer",
-      "company": "Cornerstone OnDemand",
-      "location": "Hyderabad",
-      "duration": "February 2026 - Present",
+      "company": "Avoca (YC W23)",
+      "location": "New York (Remote)",
+      "duration": "August 2025 - Present",
       "is_current": true,
       "description": [
-        "Designing and developing MCP (Model Context Protocol) servers to enable seamless integration between AI models and enterprise tools and services",
-        "Building and maintaining scalable backend APIs using FastAPI with Server-Sent Events (SSE), enabling real-time, efficient communication between AI agents and internal systems"
-      ]
-    },
-    {
-      "role": "Software Developer",
-      "company": "Quadeye Securities",
-      "location": "Gurugram",
-      "duration": "August 2025 - December 2025",
-      "is_current": false,
-      "description": [
-        "Developed an SVN + GitLab review agent to automate code review workflows by fetching, validating and managing all incoming review requests/PRs; optimized it for SVN repositories via efficient base checkout mechanisms, improving review latency",
-        "Built a server janitor service to automatically clean obsolete files across multiple servers, leveraging lfs find for efficient file discovery and ETag(MD5) comparison between disk and S3 to safely verify existence before deletion",
-        "Optimized internal web dashboards built with Next.js by improving rendering performance, API data fetching patterns, and component efficiency, reducing page load times and enhancing user responsiveness for trading and monitoring workflows"
-      ]
-    },
-    {
-      "role": "AI Scientist",
-      "company": "Navi",
-      "location": "Bangalore",
-      "duration": "June 2025 - August 2025",
-      "is_current": false,
-      "description": [
-        "Led development of voice bot response quality improvements through prompt engineering and latency optimization techniques",
-        "Developed AI solutions for fintech applications, focusing on risk assessment and customer analytics"
+        "Designed, developed, and deployed production voice AI agents using VAPI and ElevenLabs, integrating LLM-powered conversational workflows with customer CRM and business systems",
+        "Built and deployed custom MCP servers and tools integrating voice agents with CRM systems and downstream workflows, leveraging RAG, REST APIs and ML models for real-time access to contextual business data",
+        "Developed an automated agent-to-agent voice simulation framework using an outbound LLM to stress-test conversational flows, identify edge cases, and reduce manual QA effort for production voice agents",
+        "Developed CI/CD test suites for the customer-facing dashboard, including unit and component tests, improving reliability and preventing regressions across production releases"
       ]
     }
   ],
   "internships": [
     {
-      "role": "AI Intern",
-      "company": "Elyx Life",
-      "location": "Singapore",
-      "duration": "April 2025 - June 2025",
+      "role": "AI Engineer Intern",
+      "company": "Elyx Life (Healthtech)",
+      "location": "Singapore (Remote)",
+      "duration": "May 2025 - July 2025",
       "description": [
-        "Enhanced Synthea's backend to generate synthetic patient data in FHIR format with custom variables and VitalSigns",
-        "Developed an interactive full-stack website that processes natural language queries to generate synthetic patient data"
+        "Owned features end-to-end on a digital health platform, from requirements through production release, across cross-platform iOS/Android applications",
+        "Developed automated end-to-end mobile test flows using Maestro for iOS and Android, covering critical user journeys and improving regression testing and release confidence"
       ]
     },
     {
       "role": "AI Software Intern",
       "company": "Zeal AI",
-      "location": "San Francisco",
+      "location": "San Francisco (Remote)",
       "duration": "March 2025 - April 2025",
       "description": [
-        "Optimized restaurant recommendation systems using Python and AI-driven personalization workflows",
-        "Developed APIs and responsive user interfaces using React, JavaScript, FastAPI"
+        "Built production REST APIs with FastAPI and responsive React/JavaScript frontends to serve ML-driven features",
+        "Improved recommendation pipeline performance through backend optimization of Python-based ML services"
       ]
     },
     {
@@ -89,8 +103,18 @@
       "location": "Gurugram",
       "duration": "January 2025 - March 2025",
       "description": [
-        "Integrated multimodal capabilities in AI voice-agents enabling real-time analysis of user screen shares",
-        "Deployed AI workflows on AWS Lambdas for scalable and efficient processing"
+        "Built and deployed scalable backend AI services on AWS Lambda, taking systems from prototype to production",
+        "Added multimodal capabilities to production voice-agent systems supporting real-time user interactions"
+      ]
+    },
+    {
+      "role": "AI Intern",
+      "company": "Salescode.ai",
+      "location": "Gurugram (Onsite)",
+      "duration": "December 2024 - January 2025",
+      "description": [
+        "Built production conversational AI voice agents using LiveKit and Dify, integrated with SIP providers like Twilio for real-time telephony and end-to-end agentic workflows",
+        "Designed LLM evaluation and testing frameworks with Opik and Langfuse, and built agent-to-agent simulations to stress-test conversational quality and reliability before deployment"
       ]
     },
     {
@@ -99,40 +123,27 @@
       "location": "Bengaluru",
       "duration": "May 2024 - July 2024",
       "description": [
-        "Engineered Multimodal Retrieval-Augmented Generation (RAG) solutions for image-based outputs",
-        "Fine-tuned LLMs (blip-2, idefics-9b) using LoRA on custom datasets with PyTorch"
+        "Built multimodal RAG pipelines for image understanding, covering retrieval design through evaluation",
+        "Fine-tuned large vision-language models using PyTorch and LoRA on custom datasets, evaluating model performance for real-world deployment suitability"
       ]
     }
   ],
   "projects": [
     {
-      "name": "AI Interview Voice Agent",
-      "date": "2026",
-      "url": "https://elyx-sigma.vercel.app",
-      "description": "Built a self-improving real-time voice agent that attends job interviews in my place — WebRTC + OpenAI Realtime API for speech, a GPT-4o coach agent that scores each session across 10 quality gates and proposes minimal prompt patches, and a versioned prompt system with rollback. Full-stack Next.js on Vercel with Neon Postgres."
-    },
-    {
       "name": "Real-time Speech Translator",
       "date": "July 2025",
       "url": "https://realtime-speech-translator.netlify.app",
-      "description": "Built a full-stack real-time speech translator using WebSocket connections and the Web Audio API for seamless cross-language communication"
+      "description": "Built a full-stack real-time speech translation platform using WebSockets for low-latency, production-grade communication, with streaming audio processing through the Web Audio API and scalable backend services."
     },
     {
       "name": "Auto-Analyst",
       "date": "August 2024",
-      "description": "Automated data analyst tasks using a LangGraph-based multi-agent architecture with SQL querying, dynamic visualizations, and financial forecasting"
-    },
-    {
-      "name": "Portfolio Website",
-      "url": "https://rithwikportfolio.netlify.app/",
-      "description": "Developed and deployed a comprehensive portfolio website using React, HTML, JavaScript and modern web technologies"
+      "description": "Built an automated analytics platform integrating SQL querying against relational databases, financial forecasting, and interactive visualizations with modular backend workflows for reliable, production-style data processing."
     }
   ],
   "achievements": [
-    "Secured global rank 755 in Codeforces Round 185",
-    "Global ranks on CodeChef: 279 (Starters 125 Div 3), 296 (Starters 153 Div 2), 238 (Starters 212 Div 2)",
-    "Campus rank 3 (round 1) and National rank 26 (round 2) in GfG x Naukri's Engineering Ring of Honor Contest",
-    "Competitive Programming Rating: CodeChef - 1829"
+    "Secured global rank 755 in Codeforces Round 185; Competitive Programming Rating: CodeChef - 1829",
+    "Campus rank 3 (round 1) and National rank 26 (round 2) in GfG x Naukri's Engineering Ring of Honor Contest"
   ],
   "references": [
     {
@@ -143,7 +154,11 @@
     }
   ],
   "preferred_domains": [
-    "Software Engineering", "AI/ML", "Backend", "Full-Stack", "Frontend"
+    "AI/ML",
+    "AI Agents",
+    "Backend",
+    "Full-Stack",
+    "Voice AI"
   ],
   "logistics": {
     "notice_period": "30 days (on paper); flexible on exact start date",

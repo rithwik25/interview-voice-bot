@@ -7,7 +7,7 @@ session via a post-call coach agent. Browser-only (no SIP/phone).
 ## Architecture
 
 ```
-Interviewer browser ──WebRTC audio──► OpenAI Realtime (gpt-realtime)
+Interviewer browser ──WebRTC audio──► OpenAI Realtime (gpt-realtime-2.1)
         │  (ephemeral token)                  ▲
         ▼                                      │ instructions + tools + transcription
   Next.js API (Vercel)  ── /api/session ───────┘   bound to the token (server-side)
@@ -31,7 +31,7 @@ Interviewer browser ──WebRTC audio──► OpenAI Realtime (gpt-realtime)
 ## Setup
 
 ```bash
-cp .env.example .env.local   # add your real values
+cp .env.example .env   # add your real values
 npm install
 npm run dev
 ```
@@ -49,7 +49,8 @@ Live at **https://elyx-sigma.vercel.app** (Vercel project `rithwik-7088s-project
   store — so local dev needs zero DB setup. Schema is auto-created on first request
   (`src/lib/db.ts` → `ensureSchema`).
 - **Env vars on Vercel**: `OPENAI_API_KEY`, `APP_BASIC_AUTH_USERNAME`,
-  `APP_BASIC_AUTH_PASSWORD`, and `DATABASE_URL` (production + preview).
+  `APP_BASIC_AUTH_PASSWORD`, `DATABASE_URL`, and optional model/voice overrides
+  (production + preview).
 - **Redeploy**: `vercel deploy --prod`.
 
 ## Key files
@@ -89,5 +90,3 @@ specifics (which is what gets caught in technical interviews).
 - The `.data/` directory holds sessions + prompt versions locally. Serverless
   filesystems are ephemeral — move to Neon Postgres before deploying to Vercel.
 - Model/voice are configurable via env (`REALTIME_MODEL`, `REALTIME_VOICE`).
-- Optional future work documented in `voice_bot_plan.md`: pgvector RAG for a large
-  KB, audio archive + offline re-transcription, eval-gate before promoting a prompt.

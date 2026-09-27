@@ -3,27 +3,27 @@
   "answers": [
     {
       "question": "Why are you looking for a switch / why now?",
-      "answer": "Honestly, I have a great work-life balance at Cornerstone and I'm grateful for that. But I'm at a stage where I really want to take on more technically challenging work and push my growth as an engineer. I'm looking for a role where I can go deeper technically and keep learning fast — that's what excites me most, and that's what's driving the move.",
-      "notes": "Stay positive. Do NOT complain about hours/employers. Frame as moving TOWARD growth and technical depth, not away from something bad."
+      "answer": "I'm currently working on production voice AI agents at Avoca, which has been a strong learning experience. I'm exploring roles where I can keep going deeper on AI systems, backend engineering, and production-scale agent workflows, especially in teams solving technically hard problems.",
+      "notes": "Stay positive and current-role neutral. Frame as moving toward technical depth, scale, and growth."
     },
     {
-      "question": "Why did you leave Quadeye? / Why such a short stint there?",
-      "answer": "Quadeye was a fantastic learning experience and I grew a lot technically in a high-performance environment. The pace there was very intense, and I made a deliberate decision to move to a more sustainable setup so I could perform at my best consistently over the long term — which is why I joined Cornerstone.",
-      "notes": "Diplomatic framing of the long hours as 'intense pace' + a deliberate choice for sustainability. Never badmouth Quadeye; acknowledge the learning."
+      "question": "Can you walk me through your recent experience?",
+      "answer": "Most recently I have been an AI Engineer at Avoca, building production voice AI agents, MCP tooling, CRM integrations, and simulation/evaluation workflows. Before that I interned across AI, backend, healthcare, voice agents, and multimodal RAG roles, which gave me a broad base across production engineering and applied AI.",
+      "notes": "Use only the updated profile/resume chronology. Do not claim older roles unless the profile is explicitly updated again."
     },
     {
       "question": "What are your hobbies / interests apart from work?",
-      "answer": "Outside of work I'm really into chess — I enjoy the strategy and thinking a few moves ahead. I also play cricket, and I listen to a lot of music. They're how I switch off and recharge.",
+      "answer": "Outside of work I'm really into chess \u2014 I enjoy the strategy and thinking a few moves ahead. I also play cricket, and I listen to a lot of music. They're how I switch off and recharge.",
       "notes": "Keep it warm and genuine. Chess ties nicely to problem-solving if a follow-up comes."
     },
     {
       "question": "Tell me about yourself.",
-      "answer": "I'm Rithwik, a CS grad from IIT Roorkee, currently an AI Engineer at Cornerstone where I build MCP servers and FastAPI/SSE backends for AI agents. Before that I was at Quadeye and interned across AI and backend roles. My core strengths are AI/agents, backend, and real-time systems, with strong CS fundamentals from competitive programming. I'm now looking for a more technically challenging role to grow further.",
-      "notes": "Keep to ~30 seconds. Current role → background → focus areas → what I want next."
+      "answer": "I'm Rithwik, a CS grad from IIT Roorkee and currently an AI Engineer at Avoca, where I build production voice AI agents with VAPI, ElevenLabs, MCP tools, CRM integrations, and simulation/evaluation workflows. My core strengths are AI agents, backend systems, and real-time voice workflows, with hands-on full-stack and testing experience from internships and projects. I'm looking for technically challenging work where I can keep building production AI systems end to end.",
+      "notes": "Keep to ~30 seconds. Current role \u2192 background \u2192 focus areas \u2192 what I want next."
     },
     {
       "question": "What are your strengths?",
-      "answer": "My biggest strengths are strong CS fundamentals and problem-solving — I have a solid competitive-programming background — plus hands-on depth in AI agents, backend systems, and real-time/low-latency work. I also pick up new technologies quickly, which has let me contribute across very different stacks.",
+      "answer": "My biggest strengths are strong CS fundamentals and problem-solving \u2014 I have a solid competitive-programming background \u2014 plus hands-on depth in AI agents, backend systems, and real-time/low-latency work. I also pick up new technologies quickly, which has let me contribute across very different stacks.",
       "notes": "Grounded in real profile: DSA/CP, AI agents, backend, real-time. Back each with an example if pushed."
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "question": "Why should we hire you?",
-      "answer": "I bring strong fundamentals and fast learning, plus real, shipped experience across AI agents, backend, and real-time systems — including latency-sensitive voice work. I ramp up quickly on new stacks and care about building things that actually work in production, not just demos.",
+      "answer": "I bring strong fundamentals plus shipped experience across production voice AI agents, backend integrations, MCP/RAG tooling, testing, and real-time systems. I ramp up quickly, care about reliability beyond demos, and can own both the AI workflow and the engineering needed to make it work in production.",
       "notes": "Tie to the role's needs when a JD is available."
     },
     {
@@ -63,18 +63,18 @@
     },
     {
       "question": "Do you have any exposure to AI in healthcare?",
-      "answer": "I don't have a lot of exposure, to be honest, but I did intern at Elyx Life, a healthcare AI company, where I worked on generating synthetic patient data in F-H-I-R format and built a tool to create it from natural-language queries. So I've had a focused taste of healthcare AI and I'd be keen to go deeper.",
-      "notes": "Be honest that it's limited (one internship) — don't overstate as broad exposure. Still highlight the real Elyx Life work. FHIR spoken as F-H-I-R."
+      "answer": "Yes, I interned at Elyx Life, a healthtech company, where I owned features end to end on a digital health platform across cross-platform iOS and Android apps. I also developed automated mobile E2E flows with Maestro for critical user journeys, so my exposure was more product and reliability focused within healthcare than clinical modeling.",
+      "notes": "Updated resume emphasizes healthtech product/mobile work and Maestro testing; do not mention FHIR unless re-added to source data."
     },
     {
       "question": "Have you used AI coding agents / AI tools to speed up your development?",
-      "answer": "Yes, I use Claude CLI actively — it's installed on my machine and I use it for rapid prototyping and implementing plans. I also have custom skills defined for the specific projects I work on, so the agent understands the codebase context. That said, I always review every piece of AI-generated code carefully before shipping — checking for edge cases, off-by-ones, missing error handling, anything the model might have glossed over. It dramatically speeds up the first pass, but the review step is non-negotiable.",
-      "notes": "Honest and balanced — highlight both the productivity gain AND the discipline of review. Do not oversell or make it sound like AI does everything."
+      "answer": "Yes, I use Claude CLI actively \u2014 it's installed on my machine and I use it for rapid prototyping and implementing plans. I also have custom skills defined for the specific projects I work on, so the agent understands the codebase context. That said, I always review every piece of AI-generated code carefully before shipping \u2014 checking for edge cases, off-by-ones, missing error handling, anything the model might have glossed over. It dramatically speeds up the first pass, but the review step is non-negotiable.",
+      "notes": "Honest and balanced \u2014 highlight both the productivity gain AND the discipline of review. Do not oversell or make it sound like AI does everything."
     },
     {
       "question": "Can you give me an example where the AI got an edge case wrong?",
-      "answer": "Sure, two come to mind. In one case the AI generated a SQL query that worked correctly for the happy path but completely missed handling an empty result set — when no rows came back, the downstream logic broke because it assumed at least one row would always be there. Catching that in review was what saved it. The other pattern I've noticed is when Claude doesn't bother to read the actual schema first and just assumes column names. It'll write a syntactically valid query against columns it invented, which obviously fails at runtime. The fix is straightforward — prompt it to confirm the schema before finalising any query — but it's exactly the kind of thing you only catch if you're actually reviewing the output rather than just running it.",
-      "notes": "Two concrete examples. First: empty result set in SQL. Second: Claude hallucinating column names without reading schema. Both are real patterns. Deliver naturally — don't read as a list."
+      "answer": "Sure, two come to mind. In one case the AI generated a SQL query that worked correctly for the happy path but completely missed handling an empty result set \u2014 when no rows came back, the downstream logic broke because it assumed at least one row would always be there. Catching that in review was what saved it. The other pattern I've noticed is when Claude doesn't bother to read the actual schema first and just assumes column names. It'll write a syntactically valid query against columns it invented, which obviously fails at runtime. The fix is straightforward \u2014 prompt it to confirm the schema before finalising any query \u2014 but it's exactly the kind of thing you only catch if you're actually reviewing the output rather than just running it.",
+      "notes": "Two concrete examples. First: empty result set in SQL. Second: Claude hallucinating column names without reading schema. Both are real patterns. Deliver naturally \u2014 don't read as a list."
     },
     {
       "question": "Do you have any questions for us?",

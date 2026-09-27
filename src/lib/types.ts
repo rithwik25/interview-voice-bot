@@ -48,7 +48,7 @@ export const ANALYSIS_CHECKS = [
 
 export type CheckId = (typeof ANALYSIS_CHECKS)[number]["id"];
 
-export interface AnalysisCheck {
+interface AnalysisCheck {
   id: CheckId;
   status: CheckStatus;
   detail: string;

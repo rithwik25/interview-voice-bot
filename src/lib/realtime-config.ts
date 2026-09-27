@@ -2,13 +2,13 @@
 // This shape is posted to /v1/realtime/client_secrets so the prompt, tools and
 // transcription settings are bound to the ephemeral token (never exposed to the client).
 
-export const REALTIME_MODEL = process.env.REALTIME_MODEL ?? "gpt-realtime";
-export const REALTIME_VOICE = process.env.REALTIME_VOICE ?? "marin";
-export const TRANSCRIBE_MODEL =
-  process.env.REALTIME_TRANSCRIBE_MODEL ?? "gpt-4o-transcribe";
+export const REALTIME_MODEL = process.env.REALTIME_MODEL ?? "gpt-realtime-2.1";
+const REALTIME_VOICE = process.env.REALTIME_VOICE ?? "cedar";
+const TRANSCRIBE_MODEL =
+  process.env.REALTIME_TRANSCRIBE_MODEL ?? "gpt-live-transcribe";
 
 /** Minimal, latency-friendly tool set. */
-export const REALTIME_TOOLS = [
+const REALTIME_TOOLS = [
   {
     type: "function",
     name: "flag_uncertain",
@@ -24,7 +24,9 @@ export const REALTIME_TOOLS = [
         },
       },
       required: ["topic", "reason"],
+      additionalProperties: false,
     },
+    strict: true,
   },
 ] as const;
 
@@ -32,6 +34,7 @@ export function buildSessionConfig(instructions: string) {
   return {
     type: "realtime",
     model: REALTIME_MODEL,
+    output_modalities: ["audio"],
     instructions,
     audio: {
       input: {

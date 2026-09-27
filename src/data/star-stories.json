@@ -1,40 +1,55 @@
 {
   "stories": [
     {
-      "title": "Real-time AI <-> enterprise integration via MCP + FastAPI/SSE (Cornerstone)",
-      "tags": ["system design", "real-time", "backend", "AI agents", "current role"],
-      "situation": "At Cornerstone OnDemand, AI models needed a standardized, secure way to use enterprise tools and stream results back to internal systems.",
-      "task": "Design integration infrastructure so AI agents could call enterprise services and communicate in real time.",
-      "action": "Designed and built MCP (Model Context Protocol) servers to expose enterprise tools to AI models, and built scalable FastAPI backends using Server-Sent Events (SSE) for low-latency streaming between agents and internal systems.",
-      "result": "Enabled seamless, real-time AI-agent-to-system communication on standardized, maintainable infrastructure."
+      "title": "Production voice AI agents with CRM integrations (Avoca)",
+      "tags": [
+        "voice AI",
+        "production",
+        "MCP",
+        "RAG",
+        "current role"
+      ],
+      "situation": "At Avoca, customer-facing voice agents needed to integrate reliably with CRM systems and downstream business workflows.",
+      "task": "Build production-ready voice AI agents and the backend tool layer they needed for contextual, real-time business data access.",
+      "action": "Designed, developed, and deployed voice AI agents using VAPI and ElevenLabs, built custom MCP servers and REST/RAG-backed tools for CRM integrations, and created agent-to-agent simulations to stress-test flows before release.",
+      "result": "Shipped production conversational workflows with better contextual access, stronger QA coverage, and reduced manual testing effort for voice-agent releases."
     },
     {
-      "title": "SVN + GitLab code-review agent that cut review latency (Quadeye)",
-      "tags": ["automation", "latency", "agents", "version control"],
-      "situation": "Code review at a high-frequency trading firm spanned both SVN and GitLab and was slow and manual.",
-      "task": "Automate fetching, validating and managing incoming review requests/PRs across both systems.",
-      "action": "Built a review agent that handled the full workflow and optimized SVN handling via efficient base-checkout mechanisms to avoid redundant work.",
-      "result": "Automated the review pipeline and measurably improved review latency."
+      "title": "LiveKit/Dify voice agents with SIP and evals (Salescode.ai)",
+      "tags": [
+        "voice AI",
+        "telephony",
+        "evals",
+        "LiveKit",
+        "Dify"
+      ],
+      "situation": "At Salescode.ai, production conversational AI voice agents needed to work reliably over real-time telephony.",
+      "task": "Build voice-agent workflows and testing infrastructure that could validate quality and reliability before deployment.",
+      "action": "Built voice agents using LiveKit and Dify, integrated them with SIP providers like Twilio, designed Opik/Langfuse-based evaluation and testing workflows, and created agent-to-agent simulations to stress-test behavior.",
+      "result": "Improved confidence before deployment by testing conversational quality, reliability, and edge cases with traceable evals and simulations."
     },
     {
-      "title": "Safe server-janitor service with S3 ETag verification (Quadeye)",
-      "tags": ["backend", "infrastructure", "correctness", "AWS"],
-      "situation": "Obsolete files were accumulating across many servers; naive deletion risked removing files that weren't safely backed up.",
-      "task": "Automatically clean obsolete files without ever deleting something not verified to exist in S3.",
-      "action": "Used `lfs find` for efficient file discovery and compared ETag (MD5) between disk and S3 to verify existence before any deletion.",
-      "result": "Reclaimed storage safely across multiple servers with a correctness guarantee against accidental data loss."
-    },
-    {
-      "title": "Voice-bot quality + latency optimization (Navi)",
-      "tags": ["AI", "voice", "latency", "prompt engineering", "highly relevant"],
-      "situation": "Navi's customer-facing voice bot needed better response quality and lower latency.",
-      "task": "Improve response quality while reducing perceived latency.",
-      "action": "Led prompt-engineering improvements and applied latency-optimization techniques to the voice pipeline.",
-      "result": "Improved response quality and responsiveness of the voice bot. (Directly relevant experience to building low-latency voice agents.)"
+      "title": "Mobile E2E testing for digital health platform (Elyx Life)",
+      "tags": [
+        "healthtech",
+        "mobile",
+        "testing",
+        "Maestro",
+        "release quality"
+      ],
+      "situation": "At Elyx Life, critical user journeys on a cross-platform digital health app needed reliable coverage before release.",
+      "task": "Own product features end to end and improve regression confidence across iOS and Android flows.",
+      "action": "Implemented features from requirements through production release and developed Maestro E2E flows covering critical mobile journeys on both iOS and Android.",
+      "result": "Improved release confidence by catching regressions in important user flows before production."
     },
     {
       "title": "Multimodal RAG + LoRA fine-tuning (Bosch)",
-      "tags": ["AI/ML", "RAG", "fine-tuning", "PyTorch"],
+      "tags": [
+        "AI/ML",
+        "RAG",
+        "fine-tuning",
+        "PyTorch"
+      ],
       "situation": "A use case required generating image-based outputs grounded in retrieved context.",
       "task": "Build multimodal RAG and adapt vision-language models to the domain.",
       "action": "Engineered a multimodal RAG pipeline for image-based outputs and fine-tuned blip-2 and idefics-9b using LoRA on custom datasets with PyTorch.",
@@ -42,7 +57,13 @@
     },
     {
       "title": "Real-time Speech Translator (personal project)",
-      "tags": ["real-time", "websockets", "web audio", "full-stack", "highly relevant"],
+      "tags": [
+        "real-time",
+        "websockets",
+        "web audio",
+        "full-stack",
+        "highly relevant"
+      ],
       "situation": "Wanted seamless cross-language spoken communication in the browser.",
       "task": "Build a full-stack real-time speech translator.",
       "action": "Implemented WebSocket connections for real-time transport and used the Web Audio API for efficient audio capture/processing.",

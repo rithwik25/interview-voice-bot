@@ -77,13 +77,6 @@ export default function InterviewPage() {
   }, [jobDescription]);
 
   useEffect(() => {
-    turnsRef.current = turns;
-  }, [turns]);
-  useEffect(() => {
-    toolsRef.current = tools;
-  }, [tools]);
-
-  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [turns, partial]);
 
@@ -158,6 +151,8 @@ export default function InterviewPage() {
 
   const connect = useCallback(async () => {
     setError(null);
+    turnsRef.current = [];
+    toolsRef.current = [];
     setTurns([]);
     setTools([]);
     setSaved(false);
@@ -171,7 +166,9 @@ export default function InterviewPage() {
       },
       onTranscript: (t) => {
         if (t.speaker === "agent") agentSpeakingRef.current = false;
-        setTurns((prev) => [...prev, t]);
+        const nextTurns = [...turnsRef.current, t];
+        turnsRef.current = nextTurns;
+        setTurns(nextTurns);
         setPartial(null);
       },
       onPartial: (speaker, text) => {
@@ -182,12 +179,17 @@ export default function InterviewPage() {
             : { speaker, text }
         );
       },
-      onTool: (e) => setTools((prev) => [...prev, e]),
+      onTool: (e) => {
+        const nextTools = [...toolsRef.current, e];
+        toolsRef.current = nextTools;
+        setTools(nextTools);
+        void persist(false);
+      },
       onError: (m) => setError(m),
     });
     clientRef.current = client;
     await client.connect({ jobDescription: jobDescription.trim() || undefined });
-  }, [jobDescription, startLiveCaptions, stopLiveCaptions]);
+  }, [jobDescription, persist, startLiveCaptions, stopLiveCaptions]);
 
   const end = useCallback(async () => {
     await persist(true);
