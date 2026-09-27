@@ -56,7 +56,13 @@ export class RealtimeClient {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.error ?? `Session mint failed (${res.status})`);
+        const detail =
+          typeof err.detail === "string"
+            ? `: ${err.detail}`
+            : err.detail
+            ? `: ${JSON.stringify(err.detail)}`
+            : "";
+        throw new Error(`${err.error ?? `Session mint failed (${res.status})`}${detail}`);
       }
       const { token, model, sessionId, promptVersion } = await res.json();
       this.meta = {

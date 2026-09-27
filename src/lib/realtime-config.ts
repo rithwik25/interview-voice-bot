@@ -24,9 +24,7 @@ const REALTIME_TOOLS = [
         },
       },
       required: ["topic", "reason"],
-      additionalProperties: false,
     },
-    strict: true,
   },
 ] as const;
 
